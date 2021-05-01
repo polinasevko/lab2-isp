@@ -6,6 +6,8 @@ def get_dict_to_ser(obj):
         return serialize_function(obj)
     elif isinstance(obj, types.ModuleType):
         return serialize_module(obj)
+    elif isinstance(obj, (int, float, bool, str, list, tuple, dict, type(None))):
+        return obj
     else:
         raise ValueError("Wrong object")
 

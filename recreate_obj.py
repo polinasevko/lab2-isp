@@ -3,12 +3,12 @@ import importlib
 
 
 def recreate_object(deser_dict, globals, name):
-    if deser_dict[name]["type"] == "function":
+    if name == None:
+        return deser_dict
+    elif deser_dict[name]["type"] == "function":
         return recreate_function(deser_dict[name], deser_dict, globals)
     elif deser_dict[name]["type"] == "module":
         return recreate_module(deser_dict[name])
-    else:
-        raise ValueError("Wrong object")
 
 
 def recreate_function(serializable_object, deser_dict, globals):
