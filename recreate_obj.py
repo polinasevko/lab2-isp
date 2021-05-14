@@ -2,16 +2,16 @@ import types
 import importlib
 
 
-def recreate_object(deser_dict, globals, name):
+def create_object(deser_dict, globals, name):
     if name == None:
         return deser_dict
     elif deser_dict[name]["type"] == "function":
-        return recreate_function(deser_dict[name], deser_dict, globals)
+        return create_function(deser_dict[name], deser_dict, globals)
     elif deser_dict[name]["type"] == "module":
-        return recreate_module(deser_dict[name])
+        return create_module(deser_dict[name])
 
 
-def recreate_function(serializable_object, deser_dict, globals):
+def create_function(serializable_object, deser_dict, globals):
     serialized_code = serializable_object["code"]
 
     code = types.CodeType(int(serialized_code["co_argcount"]), int(serialized_code["co_kwonlyargcount"]),
@@ -26,11 +26,11 @@ def recreate_function(serializable_object, deser_dict, globals):
     additional_obj = {}
     for item in deser_dict:
         if (item in code.co_names and item not in globals):
-            additional_obj[item] = recreate_object(deser_dict, globals, item)
+            additional_obj[item] = create_object(deser_dict, globals, item)
     additional_obj.update(globals)
 
     return types.FunctionType(code, additional_obj)
 
 
-def recreate_module(py_object):
+def create_module(py_object):
     return importlib.import_module(py_object["name"])
