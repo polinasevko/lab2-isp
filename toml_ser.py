@@ -15,13 +15,13 @@ class Toml:
         toml_str = toml.dumps(ser_dict)
         return toml_str
 
-    def load(self, fp, name = None):
+    def load(self, fp):
         with open(fp, 'r') as toml_file:
             deser_dict = toml.load(toml_file)
-        obj = create_object(deser_dict, globals(), name)
+        obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj
 
-    def loads(self, toml_str, name = None):
+    def loads(self, toml_str):
         deser_dict = toml.loads(toml_str)
-        obj = create_object(deser_dict, globals(), name)
+        obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj

@@ -15,13 +15,13 @@ class Json:
         json_str = json.dumps(ser_dict)
         return json_str
 
-    def load(self, fp, name = None):
+    def load(self, fp):
         with open(fp, 'r') as json_file:
             deser_dict = json.load(json_file)
-        obj = create_object(deser_dict, globals(), name)
+        obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj
 
-    def loads(self, json_str, name = None):
+    def loads(self, json_str):
         deser_dict = json.loads(json_str)
-        obj = create_object(deser_dict, globals(), name)
+        obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj

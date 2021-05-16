@@ -15,13 +15,13 @@ class Yaml:
         yaml_str = yaml.dumps(ser_dict)
         return yaml_str
 
-    def load(self, fp, name = None):
+    def load(self, fp):
         with open(fp, 'r') as yaml_file:
             deser_dict = yaml.safe_load(yaml_file)
-        obj = create_object(deser_dict, globals(), name)
+        obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj
 
-    def loads(self, yaml_str, name = None):
+    def loads(self, yaml_str):
         deser_dict = yaml.loads(yaml_str)
-        obj = create_object(deser_dict, globals(), name)
+        obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj

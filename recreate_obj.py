@@ -3,16 +3,16 @@ import importlib
 
 
 def create_object(deser_dict, globals, name):
-    if name == None:
-        return deser_dict
+    if name == "None":
+        return deser_dict[name]
     elif deser_dict[name]["type"] == "function":
         return create_function(deser_dict[name], deser_dict, globals)
     elif deser_dict[name]["type"] == "module":
         return create_module(deser_dict[name])
 
 
-def create_function(serializable_object, deser_dict, globals):
-    serialized_code = serializable_object["code"]
+def create_function(deser_object, deser_dict, globals):
+    serialized_code = deser_object["code"]
 
     code = types.CodeType(int(serialized_code["co_argcount"]), int(serialized_code["co_kwonlyargcount"]),
                           int(serialized_code["co_posonlyargcount"]),
@@ -32,5 +32,9 @@ def create_function(serializable_object, deser_dict, globals):
     return types.FunctionType(code, additional_obj)
 
 
-def create_module(py_object):
-    return importlib.import_module(py_object["name"])
+def create_module(deser_object):
+    return importlib.import_module(deser_object["name"])
+
+
+def create_base(deser_dict):
+    return deser_dict

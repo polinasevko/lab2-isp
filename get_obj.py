@@ -6,8 +6,8 @@ def get_dict_to_ser(obj):
         return serialize_function(obj)
     elif isinstance(obj, types.ModuleType):
         return serialize_module(obj)
-    elif isinstance(obj, (int, float, bool, str, list, tuple, dict, type(None))):
-        return obj
+    elif isinstance(obj, (int, float, bool, str, list, dict, type(None))):
+        return serialize_base(obj)
     else:
         raise ValueError("Wrong object")
 
@@ -57,4 +57,9 @@ def update_globals(obj, dictionary):
 
 def serialize_module(obj):
     dictionary = {obj.__name__: {"type": "module", "name": obj.__name__}}
+    return dictionary
+
+
+def serialize_base(obj):
+    dictionary = {"None": obj}
     return dictionary
