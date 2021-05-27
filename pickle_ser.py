@@ -22,6 +22,6 @@ class Pickle():
         return obj
 
     def loads(self, pickle_str):
-        deser_dict = pickle.load(pickle_str)
+        deser_dict = pickle.loads(pickle_str)
         obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj

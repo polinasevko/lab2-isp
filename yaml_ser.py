@@ -12,7 +12,7 @@ class Yaml:
 
     def dumps(self, obj):
         ser_dict = get_dict_to_ser(obj)
-        yaml_str = yaml.dumps(ser_dict)
+        yaml_str = yaml.dump(ser_dict)
         return yaml_str
 
     def load(self, fp):
@@ -22,6 +22,6 @@ class Yaml:
         return obj
 
     def loads(self, yaml_str):
-        deser_dict = yaml.loads(yaml_str)
+        deser_dict = yaml.safe_load(yaml_str)
         obj = create_object(deser_dict, globals(), list(deser_dict.keys())[0])
         return obj
