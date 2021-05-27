@@ -3,12 +3,14 @@ import importlib
 
 
 def create_object(deser_dict, globals, name):
-    if name == "None":
-        return deser_dict[name]
-    elif deser_dict[name]["type"] == "function":
+    if deser_dict[name]["type"] == "function":
         return create_function(deser_dict[name], deser_dict, globals)
     elif deser_dict[name]["type"] == "module":
         return create_module(deser_dict[name])
+    elif deser_dict[name]["type"] == "base":
+        return deser_dict[name]["obj"]
+    else:
+        raise ValueError("Can't deserialise such object.")
 
 
 def create_function(deser_object, deser_dict, globals):
@@ -34,7 +36,3 @@ def create_function(deser_object, deser_dict, globals):
 
 def create_module(deser_object):
     return importlib.import_module(deser_object["name"])
-
-
-def create_base(deser_dict):
-    return deser_dict

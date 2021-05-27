@@ -1,15 +1,15 @@
 import types
 
 
-def get_dict_to_ser(obj):
+def get_dict_to_ser(obj, name="None"):
     if isinstance(obj, types.FunctionType):
         return serialize_function(obj)
     elif isinstance(obj, types.ModuleType):
         return serialize_module(obj)
     elif isinstance(obj, (int, float, bool, str, list, dict, type(None))):
-        return serialize_base(obj)
+        return {name: {"type": "base", "obj": obj}}
     else:
-        raise ValueError("Wrong object")
+        raise ValueError("Can't serialise such object.")
 
 
 def serialize_function(obj):
@@ -51,15 +51,10 @@ def serialize_function(obj):
 def update_globals(obj, dictionary):
     for additional_obj in obj.__globals__:
         if additional_obj in obj.__code__.co_names:
-            dictionary.update(get_dict_to_ser(obj.__globals__[additional_obj]))
+            dictionary.update(get_dict_to_ser(obj.__globals__[additional_obj], additional_obj))
     return dictionary
 
 
 def serialize_module(obj):
     dictionary = {obj.__name__: {"type": "module", "name": obj.__name__}}
-    return dictionary
-
-
-def serialize_base(obj):
-    dictionary = {"None": obj}
     return dictionary
