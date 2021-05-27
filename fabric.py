@@ -1,7 +1,7 @@
 from json_ser import Json
 from pickle_ser import Pickle
 from yaml_ser import Yaml
-from toml_ser import Toml
+
 
 
 class SerializerFactory:
@@ -9,7 +9,6 @@ class SerializerFactory:
         self.serializersList = {
             "json": Json(),
             "pickle": Pickle(),
-            "toml": Toml(),
             "yaml": Yaml()
         }
 
@@ -22,3 +21,6 @@ class SerializerFactory:
             raise ValueError()
         else:
             return serializer
+
+    def get_ser_list(self):
+        return self.serializersList.values()
